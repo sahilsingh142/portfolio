@@ -1,0 +1,87 @@
+@import "tailwindcss";
+
+@keyframes slideFromLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-100px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.slide-left {
+  animation: slideFromLeft 1.5s ease forwards;
+}
+
+
+::-webkit-scrollbar {
+  display: none;
+}
+
+* {
+  scrollbar-width: none;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-12px); }
+}
+
+@keyframes spinSlow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes pulse-ring {
+  0% { transform: scale(0.95); opacity: 0.7; }
+  70% { transform: scale(1.1); opacity: 0; }
+  100% { transform: scale(1.1); opacity: 0; }
+}
+
+@keyframes blink-cursor {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+.float-anim { animation: float 4s ease-in-out infinite; }
+.spin-slow { animation: spinSlow 12s linear infinite; }
+.pulse-ring { animation: pulse-ring 2s ease-out infinite; }
+.cursor-blink { animation: blink-cursor 1s step-end infinite; }
+
+@keyframes letterDrop {
+  0%   { opacity: 0; transform: translateY(-60px) rotateX(90deg); }
+  60%  { transform: translateY(6px) rotateX(-10deg); }
+  100% { opacity: 1; transform: translateY(0) rotateX(0deg); }
+}
+
+.letter-drop {
+  opacity: 0;
+  display: inline-block;
+  animation: letterDrop 1.5s cubic-bezier(0.22,1,0.36,1) forwards;
+}
+
+.proj-scroll {
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+}
+.proj-scroll::-webkit-scrollbar {
+  display: none;
+}
+.proj-card {
+  scroll-snap-align: start;
+}
+.overflow-x-auto::-webkit-scrollbar {
+  display: none;
+}
+
+@keyframes contactFadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes contactBlink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
+}
+.contact-blink { animation: contactBlink 1.2s step-end infinite; }
