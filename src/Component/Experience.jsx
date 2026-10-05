@@ -36,7 +36,7 @@ function Experience({experienceRef}) {
 
                     <div>
                         <span className="border text-xs rounded-sm font-bold px-3 py-2 tracking-widest">EXPRIENCE</span>
-                        <h1 className="text-5xl sm:text-8xl font-black text-zinc-200">WHERE I LEARN TO BUILD</h1>
+                        <h1 className="text-5xl sm:text-8xl font-black text-zinc-200 mt-1 sm:mt-0">WHERE I LEARN TO BUILD</h1>
                     </div>
                 </div>
 

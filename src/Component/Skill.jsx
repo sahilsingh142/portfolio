@@ -69,7 +69,7 @@ function Skill({ skillsRef }) {
 
                     <div>
                         <span className="border text-xs rounded-sm font-bold px-3 py-2 tracking-widest">SKILL</span>
-                        <h1 className="text-5xl sm:text-8xl font-black text-zinc-200">THE STACK BEHIND THE WORK</h1>
+                        <h1 className="text-5xl sm:text-8xl font-black text-zinc-200 mt-1 sm:mt-0">THE STACK BEHIND THE WORK</h1>
                     </div>
                 </div>
 

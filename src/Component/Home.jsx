@@ -125,7 +125,7 @@ function Home({ homeRef, aboutRef, projectRef, contactRef, scrollToSection, expe
                 <div className="absolute bottom-0 left-8 right-8 flex justify-between items-end slide-bottom border-b-2 border-zinc-400 py-4">
 
                     <div>
-                        <div className="mb-2 flex justify-center">
+                        <div className="mb-2 flex  sm:justify-center">
                             <FiMap className="text-xl" />
                         </div>
 
@@ -133,13 +133,13 @@ function Home({ homeRef, aboutRef, projectRef, contactRef, scrollToSection, expe
                             BASED IN UTTAR PRADESH
                         </h1>
 
-                        <div className="flex justify-center">
+                        <div className="flex sm:justify-center">
                             <h1 className="text-xs tracking-widest font-bold text-zinc-500">INDIA</h1>
                         </div>
                     </div>
 
                     <div className="text-right mb-3">
-                        <div className="mb-2 flex justify-center">
+                        <div className="mb-2 flex justify-end sm:justify-center">
                             <FiCode className="text-xl" />
                         </div>
 
