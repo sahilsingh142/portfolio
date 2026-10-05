@@ -1,100 +1,153 @@
-import { useEffect, useRef, useState } from "react"
-import { TypeAnimation } from "react-type-animation";
-import mainImg from "../Images/OwnerImg.jpeg";
-import { Link } from "react-router-dom";
+import { useEffect, useState } from "react"
+import { FiMap, FiCode } from "react-icons/fi";
 
-
-function Home({ homeRef, aboutRef, projectRef, contactRef, scrollToSection }) {
+function Home({ homeRef, aboutRef, projectRef, contactRef, scrollToSection, experienceRef, skillsRef, }) {
 
     const [activeSection, setActiveSection] = useState("home");
 
-    const navItem = "px-1 py-1 sm:px-4 sm:py-2 rounded-3xl border transition-all duration-300 cursor-none hover:scale-95";
+    const navItem = "px-1 py-1 sm:px-4 sm:py-2 transition-all duration-300 cursor-none";
+
+    useEffect(() => {
+    const sections = [
+        { ref: homeRef, name: "home" },
+        { ref: aboutRef, name: "about" },
+        { ref: skillsRef, name: "skill" },
+        { ref: projectRef, name: "project" },
+        { ref: experienceRef, name: "experience" },
+        { ref: contactRef, name: "contact" },
+    ];
+
+    const observer = new IntersectionObserver(
+        (entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    const section = sections.find(
+                        (item) => item.ref.current === entry.target
+                    );
+
+                    if (section) {
+                        setActiveSection(section.name);
+                    }
+                }
+            });
+        },
+        {
+            threshold: 0.5,
+        }
+    );
+
+    sections.forEach((section) => {
+        if (section.ref.current) {
+            observer.observe(section.ref.current);
+        }
+    });
+
+    return () => observer.disconnect();
+}, []);
 
     return (
         <>
-            <div ref={homeRef} className="w-full h-screen relative bg-black text-white cursor-crosshair snap-start">
+            <div ref={homeRef} className="w-full h-screen relative bg-black text-white p-3 cursor-crosshair">
 
-                <div className="flex justify-center sm:justify-between pt-2 ">
+                <div className="flex justify-center md:justify-between pt-2 ">
 
-                    <h1 className="font-bold ml-5 text-2xl text-indigo-500 hidden md:flex">S s</h1>
-                    <div className="border border-neutral-500 rounded-4xl px-2 py-2 flex gap-4 sm:gap-10 sm:mr-15 sm:font-bold text-[10px] sm:text-sm text-neutral-300">
+                    <div >
+                        <h1 className="fixed z-50 font-bold ml-5 text-xl bg-white px-3 py-1 slide-top text-black rounded-xl hidden lg:inline-block" style={{ fontFamily: "var(--edu-font)" }}>Ss</h1>
+                    </div>
 
+                    <div className="fixed top-2 sm:right-5 z-50 slide-top border-white/80 bg-white/0.5 backdrop-blur-xl shadow-lg shadow-black/80 px-5 py-2 rounded-full flex gap-2 sm:gap-0 sm:mr-8 sm:font-bold text-[8px] sm:text-[11px] text-zinc-400 tracking-widest">
                         <h1 onClick={() => scrollToSection(homeRef)}
-                            className={`${navItem} inline-block ${activeSection === "home" ? "border border-indigo-500 " : "border border-transparent hover:border-indigo-500"}`}>
+                            className={`${navItem} inline-block ${activeSection === "home" ? "text-zinc-100" : " hover:text-zinc-100 hover:scale-110"}`}>
                             HOME
                         </h1>
 
                         <h1 onClick={() => scrollToSection(aboutRef)}
-                            className={`${navItem} ${activeSection === "about" ? "text-indigo-500" : "border-transparent hover:border-indigo-500"}`}>
+                            className={`${navItem} ${activeSection === "about" ? "text-zinc-100" : " hover:text-zinc-100 hover:scale-110"}`}>
                             ABOUT
                         </h1>
 
+                        <h1 onClick={() => scrollToSection(skillsRef)}
+                            className={`${navItem} ${activeSection === "skill" ? "text-zinc-100" : " hover:text-zinc-100 hover:scale-110"}`}>
+                            SKILL
+                        </h1>
+
                         <h1 onClick={() => scrollToSection(projectRef)}
-                            className={`${navItem} ${activeSection === "project" ? "border-indigo-500" : "border-transparent hover:border-indigo-500"}`}>
+                            className={`${navItem} ${activeSection === "project" ? "text-zinc-100" : " hover:text-zinc-100 hover:scale-110"}`}>
                             PROJECT
                         </h1>
 
+                        <h1 onClick={() => scrollToSection(experienceRef)}
+                            className={`${navItem} ${activeSection === "experience" ? "text-zinc-100" : " hover:text-zinc-100 hover:scale-110"}`}>
+                            EXPRIENCE
+                        </h1>
+
                         <h1 onClick={() => scrollToSection(contactRef)}
-                            className={`${navItem} ${activeSection === "contact" ? "border-indigo-500" : "border-transparent hover:border-indigo-500"}`}>
+                            className={`${navItem} ${activeSection === "contact" ? "text-zinc-100" : " hover:text-zinc-100 hover:scale-110"}`}>
                             CONTACT
                         </h1>
 
                     </div>
                 </div>
 
-                <div className="flex justify-center pt-8 sm:pt-15 text-[4rem] sm:text-[6rem] md:text-[8rem] lg:text-[16rem] font-bold font-mono tracking-wider" style={{ perspective: "800px" }}>
-                    {"PORTFOLIO".split("").map((letter, index) => (
-                        <span
-                            key={index}
-                            className="letter-drop transition-all duration-300 hover:scale-125 leading-none"
-                            style={{ animationDelay: `${0.3 + index * 0.07}s` }}
-                        >
-                            {letter}
-                        </span>
-                    ))}
+                <div className="flex flex-col items-center pt-[50%] sm:pt-10">
+
+                    <div className="flex justify-center text-[5.5rem] md:text-[8rem] lg:text-[20rem] font-bold tracking-widest"
+                        style={{
+                            fontFamily: "'Changa One', sans-serif",
+                            perspective: "800px",
+                            transform: "scaleX(1.3)"
+                        }}>
+                        {"S A H I L".split("").map((letter, index) => (
+                            <span
+                                key={index}
+                                className="letter-drop inline-block transition-all duration-300 hover:scale-125 leading-none"
+                                style={{ animationDelay: `${0.3 + index * 0.07}s` }}
+                            >
+                                {letter}
+                            </span>
+                        ))}
+                    </div>
+
+
+                    <div className="w-full flex justify-end pr-[3%]">
+                        <h1 className="text-2xl sm:text-6xl font-bold slide-right text-zinc-300" style={{ fontFamily: "var(--edu-font)" }}>
+                            Singh
+                        </h1>
+                    </div>
+
+                    <div className=" p-5 text-pop">
+                        <h1 className="text-zinc-600 tracking-widest font-medium text-[12px] sm:text-[16px] mt-5 sm:mt-0" style={{ transform: "scaleX(1.2)" }}>| BUILD PRODUCATION-GRAD APPLICATION THAT's</h1>
+                        <h1 className="text-xl sm:text-3xl italic font-mono tracking-wider pt-3 sm:pt-0">make complexity disappear</h1>
+                    </div>
+
                 </div>
 
-                <div className="sm:hidden flex justify-center mt-10">
-                    <img
-                        src={mainImg}
-                        alt="Sahil Singh"
-                        className="w-52 h-52 rounded-full object-cover"
-                    />
-                </div>
+                <div className="absolute bottom-0 left-8 right-8 flex justify-between items-end slide-bottom border-b-2 border-zinc-400 py-4">
 
-                <div className="px-3 py-2 mt-10 ">
-                    <div className="pl-6 flex flex-col slide-left">
-                        <span className="text-3xl cursor-none w-[10%]">Hello! I'm</span>
-                        <span className="text-4xl font-bold cursor-none w-[14%] text-indigo-500">Sahil Singh</span>
+                    <div>
+                        <div className="mb-2 flex justify-center">
+                            <FiMap className="text-xl" />
+                        </div>
+
+                        <h1 className="text-xs tracking-widest font-medium">
+                            BASED IN UTTAR PRADESH
+                        </h1>
+
+                        <div className="flex justify-center">
+                            <h1 className="text-xs tracking-widest font-bold text-zinc-500">INDIA</h1>
+                        </div>
                     </div>
 
-                    <div className="pl-6 w-[50%] pt-3 cursor-none">
-                        <TypeAnimation
-                            sequence={[
-                                "A developer who enjoys building websites that are simple, fast and easy to use.",
-                            ]}
-                            speed={80}
-                            cursor={true}
-                            repeat={0}
-                            className="tracking-wider lg:hidden"
-                        />
+                    <div className="text-right mb-3">
+                        <div className="mb-2 flex justify-center">
+                            <FiCode className="text-xl" />
+                        </div>
 
-                        <TypeAnimation
-                            sequence={[
-                                "A developer who enjoys building websites that are simple, fast and easy to use. Most of my time is spent learning new technologies, solving problems and turning ideas into projects. I'm always looking for ways to improve my skills and create better digital experiences.",
-                            ]}
-                            speed={90}
-                            cursor={true}
-                            repeat={0}
-                            className="tracking-wider hidden lg:block"
-                        />
+                        <h1 className="text-xs tracking-widest font-medium">
+                            WEB DEVELOPER
+                        </h1>
                     </div>
 
-                    <div className="flex justify-end pt-8 sm:pt-15">
-                        <Link to="/resume">
-                            <button className="sm:text-2xl mr-8 font-medium text-indigo-400 cursor-none hover:scale-95 duration-300">Resume</button>
-                        </Link>
-                    </div>
                 </div>
 
             </div>

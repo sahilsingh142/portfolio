@@ -1,100 +1,155 @@
-import React, { useEffect, useState } from 'react'
-import linkedin from "../Images/linkedin.png";
-import github from "../Images/github.png";
-import mainImg from "../Images/OwnerImg.jpeg";
+import { FiMapPin, FiCode, FiBookOpen, FiGlobe } from "react-icons/fi"
+import { useEffect, useRef, useState } from "react";
 
-function About({aboutRef}) {
+function About({ aboutRef }) {
+
     const [aboutVisible, setAboutVisible] = useState(false);
+    const aboutContentRef = useRef(null);
 
     useEffect(() => {
         const observer = new IntersectionObserver(
             ([entry]) => {
-                if (entry.isIntersecting) setAboutVisible(true);
+                if (entry.isIntersecting) {
+                    setAboutVisible(true);
+                    observer.disconnect();
+                }
             },
-            { threshold: 0.3 }
+            {
+                threshold: 0.3,
+            }
         );
-        if (aboutRef.current) observer.observe(aboutRef.current);
+
+        if (aboutContentRef.current) {
+            observer.observe(aboutContentRef.current);
+        }
+
         return () => observer.disconnect();
     }, []);
 
     return (
         <>
-            <div
-                ref={aboutRef}
-                className="w-full h-screen snap-start bg-black flex items-center cursor-crosshair overflow-hidden relative">
+            <div ref={aboutRef} className="w-full p-5 min-h-screen pl-[8%] snap-start bg-black cursor-crosshair overflow-hidden relative text-white pt-[8%]">
 
-                <div className="w-full lg:w-1/2 flex flex-col pl-10 lg:pl-20 pr-10 text-white z-10">
-
-                    <div className={`flex items-center gap-3 mb-4 transition-all duration-2000 ease-out ${aboutVisible ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-10"}`}>
-                        <span className="w-8 h-0.5 bg-indigo-400" />
-                        <span className="text-indigo-400 text-sm tracking-widest uppercase font-mono">Who I Am</span>
+                <div className={`flex w-full h-[30%] pt-8 about-header ${aboutVisible ? "about-show" : "" }`}>
+                    <div >
+                        <h1 style={{ fontFamily: "'Changa One', sans-serif" }} className="text-8xl sm:text-9xl font-medium text-zinc-800 ">01</h1>
                     </div>
 
-                    <h1 className={`text-6xl font-bold leading-tight mb-6 transition-all duration-2000 ease-out delay-150 ${aboutVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"}`}>
-                        About <span className="text-indigo-400">Me</span>
-                        <span className="cursor-blink text-indigo-400">|</span>
-                    </h1>
-
-                    {[
-                        "Hey! I'm Sahil Singh — a frontend developer by profession, a problem-solver by nature.",
-                        "I build clean, responsive, and visually engaging web experiences using React, Tailwind CSS, and JavaScript — one component at a time.",
-                        "I believe great design and great code go hand in hand. When I'm not pushing pixels or debugging at 2am, I'm probably exploring new tech, sipping chai, or thinking about the next big idea.",
-                    ].map((line, i) => (
-                        <p key={i}
-                            className={`text-gray-400 font-mono text-sm leading-relaxed mb-3 transition-all duration-2000 ease-out${aboutVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}
-                            style={{ transitionDelay: aboutVisible ? `${300 + i * 150}ms` : "0ms" }}>
-                            <span className="text-indigo-500 mr-2">▹</span>{line}
-                        </p>
-                    ))}
-
-                    <div className="flex gap-5 mt-8">
-                        {[
-                            { src: github, alt: "github", href: "https://github.com/sahilsingh142", delay: 700 },
-                            { src: linkedin, alt: "linkedin", href: "https://www.linkedin.com/in/sahil-singh142/", delay: 850 },
-                        ].map(({ src, alt, href, delay }) => (
-                            <a key={alt} href={href} target="_blank" rel="noreferrer"
-                                className={`group relative transition-all duration-1500 ease-out ${aboutVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}
-                                style={{ transitionDelay: aboutVisible ? `${delay}ms` : "0ms" }}>
-                                <img
-                                    src={src}
-                                    alt={alt}
-                                    className="w-10 h-10 object-cover relative z-10 filter grayscale opacity-60 group-hover:grayscale-0 group-hover:opacity-100 group-hover:scale-110 transition-all duration-700"
-                                />
-                            </a>
-                        ))}
+                    <div>
+                        <span className="border text-xs rounded-sm font-bold px-3 py-2 tracking-widest">ABOUT</span>
+                        <h1 className="text-5xl sm:text-8xl font-black text-zinc-200">WHERE IDEAS BECOME REALITY</h1>
                     </div>
                 </div>
 
-                <div className="w-1/2 lg:flex items-center justify-center z-10 hidden">
-                    <div className={`relative transition-all duration-1000 ease-out ${aboutVisible ? "opacity-100 translate-y-0 scale-100" : "opacity-0 -translate-y-20 scale-90"}`}
-                        style={{ transitionDelay: "200ms" }}>
+                {/* ABOUT CONTENT */}
+                <div ref={aboutContentRef}
+                    className= {`w-full pr-[8%] flex flex-col lg:flex-row pt-8 gap-10 lg:gap-20 ${aboutVisible ? "about-cards-show" : "" }`}>
 
-                        <div className="spin-slow absolute inset-0 m-auto w-80 h-80 rounded-full border-2 border-dashed border-indigo-500 opacity-30"
-                            style={{ top: "-8px", left: "-8px", width: "calc(100% + 16px)", height: "calc(100% + 16px)" }}
-                        />
+                    <div className="w-full lg:w-[30%] grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-6">
 
-                        <div className="pulse-ring absolute inset-0 rounded-full border-2 border-indigo-400 opacity-40"
-                            style={{ borderRadius: "72% 48% 56% 64% / 70% 54% 66% 50%" }}
-                        />
+                        <div className="about-card flex items-center gap-4 border-2 border-zinc-400 rounded-sm p-4 bg-zinc-900" style={{animationDelay:"0.7s", "--delay": "0.2s" }}>
 
-                        <div className="float-anim group relative cursor-none">
-                            <img
-                                src={mainImg}
-                                alt="Sahil Singh"
-                                className="w-72 h-72 object-cover transition-all duration-1000 group-hover:scale-105"
-                                style={{ borderRadius: "72% 48% 56% 64% / 70% 54% 66% 50%", border: "3px solid #6366f1", boxShadow: "0 0 40px rgba(99,102,241,0.3)", }}
-                            />
+                            <div className="border-2 border-zinc-400 rounded-sm p-3 shrink-0 ">
+                                <FiMapPin size={20} />
+                            </div>
+
+                            <div className="flex flex-col">
+                                <span className="text-[10px] font-medium tracking-widest text-zinc-500">
+                                    LOCATION
+                                </span>
+
+                                <span className="text-xs tracking-wide font-bold">
+                                    UTTAR PRADESH, INDIA
+                                </span>
+                            </div>
+
                         </div>
 
-                        <div className={`absolute -top-4 -right-6 bg-indigo-600 text-white text-xs font-mono px-3 py-1 rounded-full transition-all duration-700 delay-700 ease-out ${aboutVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}>
-                            Open to work
+
+                        {/* FOCUS */}
+                        <div className="about-card flex items-center gap-4 border-2 border-zinc-400 rounded-sm p-4 bg-zinc-900" style={{animationDelay:"1.1s", "--delay": "0.3s" }}>
+
+                            <div className="border-2 border-zinc-400 rounded-sm p-3 shrink-0">
+                                <FiCode size={20} />
+                            </div>
+
+                            <div className="flex flex-col">
+                                <span className="text-[10px] font-medium tracking-widest text-zinc-500">
+                                    FOCUS
+                                </span>
+
+                                <span className="text-xs font-bold tracking-wide">
+                                    WEB DEVELOPMENT
+                                </span>
+                            </div>
+
                         </div>
 
-                        <div className={`absolute -bottom-4 -left-6 bg-black border border-indigo-500 text-indigo-300 text-xs font-mono px-3 py-1 rounded-full transition-all duration-700 delay-900 ease-out ${aboutVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}>
-                            React · JS · Express
+
+                        {/* EDUCATION */}
+                        <div className="about-card flex items-center gap-4 border-2 border-zinc-400 rounded-sm p-4 bg-zinc-900" style={{animationDelay:"1.5s", "--delay": "0.4s" }}>
+
+                            <div className="border-2 border-zinc-400 rounded-sm p-3 shrink-0">
+                                <FiBookOpen size={20} />
+                            </div>
+
+                            <div className="flex flex-col">
+                                <span className="text-[10px] font-medium tracking-widest text-zinc-500">
+                                    EDUCATION
+                                </span>
+
+                                <span className="font-bold text-xs tracking-wide">
+                                    BACHELOR OF COMPUTER APPLICATIONS
+                                </span>
+                            </div>
+
+                        </div>
+
+
+                        {/* LANGUAGES */}
+                        <div className="about-card flex items-center gap-4 border-2 border-zinc-400 rounded-sm p-4 bg-zinc-900" style={{animationDelay:"1.9s", "--delay": "0.5s" }}>
+
+                            <div className="border-2 border-zinc-400 rounded-sm p-3 shrink-0">
+                                <FiGlobe size={20} />
+                            </div>
+
+                            <div className="flex flex-col">
+                                <span className="text-[10px] font-medium tracking-widest text-zinc-500">
+                                    LANGUAGES
+                                </span>
+
+                                <span className="font-bold text-xs tracking-wide">
+                                    ENGLISH & HINDI
+                                </span>
+                            </div>
+
                         </div>
 
                     </div>
+
+                    <div className= {`w-full lg:w-[70%] flex flex-col pt-2 ${aboutVisible ? "about-cards-show" : "" }`}>
+
+                        <div className="space-y-6 text-sm md:text-base leading-7 text-zinc-400">
+
+                            <p className="about-card" style={{animationDelay:"0.7s", "--delay": "0.2s" }}> I'm a <span className="font-medium text-zinc-200">Web Developer</span> who enjoys turning ideas into simple,
+                                useful and <span className="font-medium text-zinc-200">responsive web experiences</span>. I like working on projects
+                                where I can build something from scratch and see it actually come together in the browser.
+                            </p>
+
+                            <p className="about-card" style={{animationDelay:"1.1s", "--delay": "0.3s" }}> I mainly work with the <span className="font-medium text-zinc-200">MERN stack</span> — React, Node.js,
+                                Express.js and MongoDB. Along with building interfaces, I enjoy working on <span className="font-medium text-zinc-200">REST APIs,
+                                    authentication, databases and real-time features</span>, which gives me a better understanding of how a complete web application works.
+                            </p>
+
+                            <p className="about-card" style={{animationDelay:"1.5s", "--delay": "0.4s" }}> For me, development isn't only about writing code. A big part of my learning has come from
+                                <span className="font-medium text-zinc-200"> debugging errors, </span>solving problems and figuring out why something isn't working.
+                                Every project gives me a chance to learn something new and improve the way I build things.
+                            </p>
+
+                        </div>
+
+                    </div>
+
                 </div>
             </div>
         </>

@@ -1,194 +1,203 @@
-import React, { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import resumeProject from "../Images/resume project.png";
 import chatApplication from "../Images/chat app.png";
 import hospital from "../Images/hospital.png"
+import { FiX } from 'react-icons/fi';
 
-function Projects({projectRef}) {
+function Projects({ projectRef }) {
 
-    const [activeProjectIndex, setActiveProjectIndex] = useState(0);
-
-    const handleProjScroll = () => {
-        const el = projScrollRef.current;
-        if (!el) return;
-        const cardWidth = el.clientWidth * 0.4; // 40% width matches card
-        const index = Math.round(el.scrollLeft / cardWidth);
-        setActiveProjectIndex(index);
-    };
-
-    const [projectVisible, setProjectVisible] = useState(false);
+    const [aboutVisible, setAboutVisible] = useState(false);
+    const [fullImg, setFullImg] = useState(null);
+    const aboutContentRef = useRef(null);
+    const hoverTimer = useRef(null);
 
     useEffect(() => {
         const observer = new IntersectionObserver(
-            ([entry]) => { if (entry.isIntersecting) setProjectVisible(true); },
-            { threshold: 0.2 }
+            ([entry]) => {
+                if (entry.isIntersecting) {
+                    setAboutVisible(true);
+                    observer.disconnect();
+                }
+            },
+            {
+                threshold: 0.3,
+            }
         );
-        if (projectRef.current) observer.observe(projectRef.current);
+
+        if (aboutContentRef.current) {
+            observer.observe(aboutContentRef.current);
+        }
+
         return () => observer.disconnect();
     }, []);
 
     return (
         <>
-            <div ref={projectRef} className="w-full h-screen snap-start bg-black text-white cursor-crosshair relative overflow-hidden">
+            <div ref={projectRef} className="w-full p-5 min-h-screen pl-[8%] snap-start bg-black cursor-crosshair relative text-white pt-[10%]">
 
-                <div className="absolute inset-0 opacity-5 pointer-events-none"
-                    style={{
-                        backgroundImage: `linear-gradient(#fff 1px,transparent 1px),linear-gradient(90deg,#fff 1px,transparent 1px)`,
-                        backgroundSize: "48px 48px",
-                    }}
-                />
-
-                <div className="w-full h-[28%] flex items-end justify-between px-5 sm:px-10 relative z-10">
-                    <div>
-                        <span className={`block text-indigo-400 text-xs font-mono tracking-[4px] uppercase transition-all duration-700 ease-out ${projectVisible ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-6"}`}>
-                            Selected Work
-                        </span>
-
-                        <h1 className="text-6xl sm:text-7xl font-bold font-mono mb-10 flex overflow-hidden">
-                            {"PROJECTS".split("").map((letter, i) => (
-                                <span
-                                    key={i}
-                                    className="inline-block transition-all duration-1500 ease-out"
-                                    style={{
-                                        opacity: projectVisible ? 1 : 0,
-                                        transform: projectVisible ? "translateY(0)" : "translateY(-60px)",
-                                        transitionDelay: projectVisible ? `${0.15 + i * 0.04}s` : "0s",
-                                    }}
-                                >
-                                    {letter}
-                                </span>
-                            ))}
-                        </h1>
+                <div className={`flex w-full h-[30%] pt-8 about-header ${aboutVisible ? "about-show" : ""}`}>
+                    <div >
+                        <h1 style={{ fontFamily: "'Changa One', sans-serif" }} className="text-8xl sm:text-9xl font-medium text-zinc-800 ">03</h1>
                     </div>
 
-                    <p className={`hidden sm:block text-zinc-600 text-xs font-mono tracking-widest mb-10 transition-all duration-1500 ease-out ${projectVisible ? "opacity-100 translate-x-0" : "opacity-0 translate-x-6"}`}
-                        style={{ transitionDelay: "0.8s" }}>
-                        SCROLL TO EXPLORE →
-                    </p>
+                    <div>
+                        <span className="border text-xs rounded-sm font-bold px-3 py-2 tracking-widest">PROJECT</span>
+                        <h1 className="text-5xl sm:text-8xl font-black text-zinc-200">WHERE CODE BECOME REAL</h1>
+                    </div>
                 </div>
 
-                <div
-                    onScroll={handleProjScroll}
-                    className="proj-scroll w-full h-[72%] border-t border-neutral-800 flex gap-3 overflow-x-auto relative z-10">
+                <div ref={aboutContentRef} className={`w-full h-[72%] flex gap-3 overflow-x-auto relative z-10 mt-15 ${aboutVisible ? "project-cards-show" : ""}`}>
 
-                    {/* Project 01 */}
-                    <div className="proj-card w-full sm:w-[60%] lg:w-[40%] bg-neutral-900 rounded-xl h-full border-r border-neutral-800 flex justify-center shrink-0">
+                    <div className="w-full sm:w-[60%] lg:w-[40%] bg-neutral-900 rounded-xl h-full  flex justify-center shrink-0 project-card" style={{ animationDelay: "0.5s", "--delay": "0.2s" }}>
                         <div className="w-[90%] pt-6 pb-6 flex flex-col">
 
-                            <div className="flex justify-between items-start">
-                                <h1 className="text-5xl font-bold text-neutral-500 font-mono">01</h1>
-                                <div className="text-right">
-                                    <h1 className="text-xl font-medium text-neutral-100">Resume Builder</h1>
-                                    <span className="text-indigo-400 text-[10px] font-mono border border-indigo-500/50 px-2 py-0.5 rounded-full mt-1 inline-block">
-                                        WEB APP
-                                    </span>
+                            <div className="flex items-start">
+                                <h1 className="text-3xl font-bold text-neutral-400 font-mono border-4 border-zinc-400 p-1">01</h1>
+                                <div>
+                                    <h1 className="text-4xl font-bold font-mono text-neutral-100 m-4 tracking-wider">Resume Builder</h1>
                                 </div>
                             </div>
 
-                            <div className="pt-8 tracking-wider">
-                                <h1 className="text-xl font-medium text-zinc-300">Tools and Features</h1>
-                                <div className="flex gap-1.5 flex-wrap mt-3">
-                                    {["React", "Tailwind CSS", "Redux Toolkit", "Express.js", "Mongoose", "Jwt Authentication"].map(tag => (
-                                        <span key={tag} className="bg-zinc-900 border border-zinc-800 text-zinc-400 text-[10px] px-2.5 py-1 rounded">
-                                            {tag}
-                                        </span>
-                                    ))}
-                                </div>
-                            </div>
-
-                            <div className="flex justify-center pt-15">
+                            <div className="flex justify-center pt-10">
                                 <img
                                     src={resumeProject}
-                                    alt="Resume Maker"
-                                    className="w-90 h-60 rounded-xl hover:scale-105 duration-300"
+                                    alt="Resume Builder"
+                                    onMouseEnter={() => {
+                                        hoverTimer.current = setTimeout(() => {
+                                            setFullImg({
+                                                src: resumeProject,
+                                                title: "Resume Builder"
+                                            });
+                                        }, 900);
+                                    }}
+                                    onMouseLeave={() => {
+                                        clearTimeout(hoverTimer.current);
+                                    }}
+                                    className="w-95 h-60 rounded-md shadow-sm shadow-zinc-300 hover:scale-105 duration-300"
                                 />
                             </div>
 
-                        </div>
-                    </div>
-
-                    {/* Project 02 */}
-                    <div className="proj-card w-full sm:w-[40%] h-full border-r bg-neutral-900 rounded-xl border-neutral-800 flex justify-center shrink-0">
-                        <div className="w-[90%] pt-6 pb-6 flex flex-col">
-
-                            <div className="flex justify-between items-start">
-                                <h1 className="text-5xl font-bold text-neutral-500 font-mono">02</h1>
-                                <div className="text-right">
-                                    <h1 className="text-xl font-medium text-neutral-100">Hospital Management</h1>
-                                    <span className="text-indigo-400 text-[10px] font-mono border border-indigo-500/50 px-2 py-0.5 rounded-full mt-1 inline-block">
-                                        Group Proj
-                                    </span>
-                                </div>
-                            </div>
-
-                            <div className="pt-8 tracking-wider">
-                                <h1 className="text-xl font-medium text-zinc-300">Tools and Features</h1>
-                                <div className="flex gap-1.5 flex-wrap mt-3">
-                                    {["React", "Tailwind CSS", "Express.js", "Mongoose"].map(tag => (
-                                        <span key={tag} className="bg-zinc-900 border border-zinc-800 text-zinc-400 text-[10px] px-2.5 py-1 rounded">
+                            <div className="pt-5 tracking-wider">
+                                <div className="flex gap-2 flex-wrap mt-3">
+                                    {["React", "Tailwind CSS", "Redux Toolkit", "Express.js", "Mongoose", "Jwt Authentication"].map(tag => (
+                                        <span key={tag} className="bg-zinc-800 border border-zinc-700 text-zinc-400 text-[10px] sm:text-xs font-medium px-2.5 py-1 rounded">
                                             {tag}
                                         </span>
                                     ))}
                                 </div>
                             </div>
 
-                            <div className="flex justify-center pt-15">
+                        </div>
+                    </div>
+
+                    <div className=" w-full sm:w-[60%] lg:w-[40%] h-full border-r bg-neutral-900 rounded-xl border-neutral-800 flex justify-center shrink-0 project-card" style={{ animationDelay: "1s", "--delay": "0.3s" }}>
+                        <div className="w-[90%] pt-6 pb-6 flex flex-col">
+
+                            <div className="flex items-start">
+                                <h1 className="text-3xl font-bold text-neutral-400 font-mono border-4 border-zinc-400 p-1">02</h1>
+                                <div>
+                                    <h1 className="text-4xl font-bold font-mono text-neutral-100 m-4 tracking-wider">BookNest</h1>
+                                </div>
+                            </div>
+
+                            <div className="flex justify-center pt-10">
                                 <img
                                     src={hospital}
-                                    alt="Hospital Management"
-                                    className="w-90 h-60 rounded-xl hover:scale-105 duration-300"
+                                    alt="BookNest"
+                                    onMouseEnter={() => {
+                                        hoverTimer.current = setTimeout(() => {
+                                            setFullImg({
+                                                src: hospital,
+                                                title: "BookNest"
+                                            });
+                                        }, 800);
+                                    }}
+                                    onMouseLeave={() => {
+                                        clearTimeout(hoverTimer.current);
+                                    }}
+                                    className="w-95 h-60 rounded-md shadow-sm shadow-zinc-300 hover:scale-105 duration-300"
                                 />
                             </div>
 
-                        </div>
-                    </div>
-
-                    <div className="proj-card w-full sm:w-[40%] h-full border-r bg-neutral-900 rounded-xl border-neutral-800 flex justify-center shrink-0">
-                        <div className="w-[90%] pt-6 pb-6 flex flex-col">
-
-                            <div className="flex justify-between items-start">
-                                <h1 className="text-5xl font-bold text-neutral-500 font-mono">03</h1>
-                                <div className="text-right">
-                                    <h1 className="text-xl font-medium text-neutral-100">Chat Application</h1>
-                                    <span className="text-indigo-400 text-[10px] font-mono border border-indigo-500/50 px-2 py-0.5 rounded-full mt-1 inline-block">
-                                        REALTIME
-                                    </span>
-                                </div>
-                            </div>
-
-                            <div className="pt-8 tracking-wider">
-                                <h1 className="text-xl font-medium text-zinc-300">Tools and Features</h1>
+                            <div className="pt-5 tracking-wider">
                                 <div className="flex gap-1.5 flex-wrap mt-3">
-                                    {["React", "Tailwind CSS", "Socket.io", "Express.js", "Mongoose", "Jwt Authentication"].map(tag => (
-                                        <span key={tag} className="bg-zinc-900 border border-zinc-800 text-zinc-400 text-[10px] px-2.5 py-1 rounded">
+                                    {["React", "Tailwind CSS", "Express.js", "Mongoose", "Socket.io", "Cookies", "Notification Alert"].map(tag => (
+                                        <span key={tag} className="bg-zinc-800 border border-zinc-700 text-zinc-400 text-[10px] sm:text-xs font-medium px-2.5 py-1 rounded">
                                             {tag}
                                         </span>
                                     ))}
                                 </div>
                             </div>
 
-                            <div className="flex justify-center pt-15">
+                        </div>
+                    </div>
+
+                    <div className="w-full sm:w-[60%] lg:w-[40%] h-full border-r bg-neutral-900 rounded-xl border-neutral-800 flex justify-center shrink-0 project-card" style={{ animationDelay: "1.5s", "--delay": "0.4s" }}>
+                        <div className="w-[90%] pt-6 pb-6 flex flex-col">
+
+                            <div className="flex items-start">
+                                <h1 className="text-3xl font-bold text-neutral-400 font-mono border-4 border-zinc-400 p-1">03</h1>
+                                <div>
+                                    <h1 className="text-4xl font-bold font-mono text-neutral-100 m-4 tracking-wider">Chat Application</h1>
+                                </div>
+                            </div>
+
+                            <div className="flex justify-center pt-10">
                                 <img
                                     src={chatApplication}
                                     alt="Chat Application"
-                                    className="w-90 h-60 rounded-xl hover:scale-105 duration-300"
+                                    onMouseEnter={() => {
+                                        hoverTimer.current = setTimeout(() => {
+                                            setFullImg({
+                                                src: chatApplication,
+                                                title: "Chat Application"
+                                            });
+                                        }, 800);
+                                    }}
+                                    onMouseLeave={() => {
+                                        clearTimeout(hoverTimer.current);
+                                    }}
+                                    className="w-95 h-60 rounded-md shadow-sm shadow-zinc-300 hover:scale-105 duration-300"
                                 />
                             </div>
 
-                        </div>
-                    </div>
-
-                    {/* More soon end card */}
-                    <div className="proj-card min-w-[50%] sm:min-w-[20%] h-full flex items-center justify-center shrink-0">
-                        <div className="text-center">
-                            <div className="w-12 h-12 rounded-full border border-zinc-700 flex items-center justify-center text-zinc-600 text-xl mx-auto mb-3">
-                                →
+                            <div className="pt-5 tracking-wider">
+                                <div className="flex gap-1.5 flex-wrap mt-3">
+                                    {["React", "Tailwind CSS", "Express.js", "Mongoose", "Socket.io", "Authentication",].map(tag => (
+                                        <span key={tag} className="bg-zinc-800 border border-zinc-700 text-zinc-400 text-[10px] sm:text-xs font-medium px-2.5 py-1 rounded">
+                                            {tag}
+                                        </span>
+                                    ))}
+                                </div>
                             </div>
-                            <span className="text-zinc-600 text-[11px] font-mono">more soon</span>
+
                         </div>
-
                     </div>
-
                 </div>
+
+                {fullImg && (
+                    <div
+                        onMouseLeave={() => setFullImg(null)}
+                        className="full-overlay fixed inset-0 z-50 bg-black/80 flex flex-col items-center justify-center"
+                    >
+                        <button onClick={() => setFullImg(null)}
+                            className="full-close absolute bottom-5 text-white text-3xl hover:text-zinc-400 duration-300" >
+                            <FiX size={35} className='font-bold border-2 border-zinc-200 rounded-full' />
+                        </button>
+
+                        <h1 className="full-title text-5xl sm:text-7xl font-black font-mono text-zinc-100 mb-3">
+                            {fullImg.title}
+                        </h1>
+
+                        <div className="full-line h-1 bg-zinc-200 mb-8"></div>
+
+                        <img
+                            src={fullImg.src}
+                            alt={fullImg.title}
+                            className="full-img max-h-[60vh] max-w-[80vw] rounded-xl shadow-2xl shadow-zinc-700/50"
+                        />
+                    </div>
+                )}
             </div>
         </>
     )

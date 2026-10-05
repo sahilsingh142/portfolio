@@ -1,63 +1,41 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef } from "react";
 import Home from "./Component/Home";
 import About from "./Component/About";
 import Skill from "./Component/Skill";
 import Projects from "./Component/Projects";
 import Contact from "./Component/Contact";
 import Cursor from "./Component/Cursor";
+import Experience from "./Component/Experience";
 
 function Portfolio() {
 
     const homeRef = useRef(null);
     const aboutRef = useRef(null);
-    const projectRef = useRef(null);
-    const contactRef = useRef(null);
     const skillsRef = useRef(null);
-    const projScrollRef = useRef(null);
+    const projectRef = useRef(null);
+    const experienceRef = useRef(null);
+    const contactRef = useRef(null);
 
     const scrollToSection = (ref) => {
-        ref.current.scrollIntoView({
-            behavior: "smooth",
-        });
-    };
+    const top = ref.current.getBoundingClientRect().top + window.scrollY;
 
-    useEffect(() => {
-        const handleScroll = () => {
-            const sections = [
-                { id: "home", ref: homeRef },
-                { id: "about", ref: aboutRef },
-                { id: "project", ref: projectRef },
-                { id: "contact", ref: contactRef },
-            ];
-
-            sections.forEach((section) => {
-                const top = section.ref.current.offsetTop;
-                const height = section.ref.current.offsetHeight;
-
-                if (
-                    window.scrollY >= top - 200 &&
-                    window.scrollY < top + height - 200
-                ) {
-                    setActiveSection(section.id);
-                }
-            });
-        };
-
-        window.addEventListener("scroll", handleScroll);
-
-        return () => window.removeEventListener("scroll", handleScroll);
-    }, []);
+    window.scrollTo({
+        top: top + 90,
+        behavior: "smooth"
+    });
+};
 
     return (
         <>
-            <div className="w-full h-screen overflow-y-scroll snap-y snap-mandatory">
-
+            <div>
                 <Cursor />
 
                 <Home
                     homeRef={homeRef}
                     aboutRef={aboutRef}
+                    skillsRef={skillsRef}
                     projectRef={projectRef}
+                    experienceRef={experienceRef}
                     contactRef={contactRef}
                     scrollToSection={scrollToSection}
                 />
@@ -68,10 +46,12 @@ function Portfolio() {
 
                 <Projects projectRef={projectRef} />
 
-                <Contact contactRef={contactRef} />
+                <Experience experienceRef={experienceRef} />
 
+                <Contact contactRef={contactRef} />
             </div>
         </>
+
     )
 }
 
